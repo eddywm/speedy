@@ -2,9 +2,15 @@
   <div>
     <div>
 
+      <div class="field">
+        <b-switch v-model="isPhraseHidden">
+          {{ isPhraseHidden ? 'Seed phrase hidden' : 'Seed phrase revealed' }}
+        </b-switch>
+      </div>
+
       <b-field label="Seed Phrase">
         <b-input type="textarea" placeholder="Enter the seed phrase 12 or 24 words"
-                 v-model="seedPhrase"
+                 v-model="isPhraseHidden ? hiddenPhrase : seedPhrase"
                  validation-message="The seed phrase is required"
                  required>
 
@@ -19,8 +25,6 @@
 
         </b-input>
       </b-field>
-
-
     </div>
 
     <div>
@@ -40,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import {Component, Vue, Watch} from 'vue-property-decorator';
 import * as bitcoin from 'bitcoinjs-lib'
 import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
@@ -49,8 +53,16 @@ import * as bip39 from 'bip39';
 export default class AddressGeneration extends Vue {
   generatedAddress: string = ""
   seedPhrase: string = ""
+  hiddenPhrase: string = ""
+
   derivationPath: string = ""
   isAddressBannerActive: boolean = false
+  isPhraseHidden: boolean = false;
+
+  @Watch('seedPhrase')
+  onSeedPhraseChanged(value: string, oldValue: string) {
+    this.hiddenPhrase = this.seedPhrase.replace(/\S/gi, '*');
+  }
 
   public derive(seedPhrase: string, derivationPath: string): string {
     const seed = bip39.mnemonicToSeedSync(seedPhrase, "");
@@ -58,7 +70,6 @@ export default class AddressGeneration extends Vue {
 
     const account = root.derivePath(derivationPath);
     let publicKey = account.publicKey;
-
     return bitcoin.payments.p2wpkh({pubkey: publicKey}).address ?? "";
   }
 
@@ -94,7 +105,6 @@ export default class AddressGeneration extends Vue {
 
       this.isAddressBannerActive = true;
     } catch (e) {
-      console.log(`Failed generating address: ${e}`)
       this.warn("There was an issue generating the address, check inputs again !")
 
     }
