@@ -1,9 +1,4 @@
 <template>
-  <div class="columns">
-    <div class="column"></div>
-    <div class="column is-two-thirds">
-
-
       <div class="columns" id="fields">
         <div class="column"></div>
 
@@ -30,10 +25,6 @@
         </div>
 
       </div>
-
-    </div>
-    <div class="column"></div>
-  </div>
 
 </template>
 
