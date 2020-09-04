@@ -4,7 +4,7 @@
 
       <div class="field">
         <b-switch v-model="isPhraseHidden">
-          {{ isPhraseHidden ? 'Seed phrase hidden' : 'Seed phrase revealed' }}
+          {{ isPhraseHidden ? 'Reveal seed phrase' : 'Hide seed phrase' }}
         </b-switch>
       </div>
 
