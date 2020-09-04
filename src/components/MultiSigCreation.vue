@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h5 class="tile">Specify M of N parameters for the MULTI-SIG</h5>
+    <h5 class="tile" id="notice">Specify M of N parameters for the MULTI-SIG : Note than N is expected to be greater
+      than M</h5>
     <br>
     <div class="columns">
 
@@ -25,7 +26,7 @@
       <div class="container" id="generate-multisig-btn">
         <button class="button is-primary" v-on:click="getMultiSig">
           <b-icon icon="plus"></b-icon>
-          <span>Generate {{ mValue + ' of ' + nValue }}</span>
+          <span>Generate {{ mValue + ' of ' + nValue }} Multi-Sig</span>
         </button>
       </div>
 
@@ -38,7 +39,8 @@
 
       <div v-for="(field, index) in publicKeysFields" :key="field">
         <b-field :label="'Public Key - Position: '+index" id="pb-key-field">
-          <b-input placeholder="031daf6d5f08f18baf43f9499dd48020dede412db2892ad33d2d906432c090a718" v-model="publicKeys[index]"
+          <b-input placeholder="031daf6d5f08f18baf43f9499dd48020dede412db2892ad33d2d906432c090a718"
+                   v-model="publicKeys[index]"
                    validation-message="The public key data required"
                    required></b-input>
         </b-field>
@@ -107,10 +109,21 @@ export default class MultiSigCreation extends Vue {
       })
       return null
     }
+  }
 
+  checkInputs() : boolean {
+    return this.publicKeys.filter(pk => pk.length > 0).length != 0;
   }
 
   getMultiSig() {
+    if (!this.checkInputs()) {
+      this.$buefy.toast.open({
+        message: "Public key fields should be filled",
+        type: "is-danger"
+      })
+      return;
+    }
+
     let address = this.generateP2SHMultiSig(this.publicKeys);
     console.log(`Generated address: ${address}`)
 
@@ -126,7 +139,7 @@ export default class MultiSigCreation extends Vue {
   margin-top: 60px;
 }
 
-#pb-key-field, #generate-multisig-btn {
+#pb-key-field, #generate-multisig-btn, #notice {
   padding-top: 10px;
   padding-bottom: 10px;
 }

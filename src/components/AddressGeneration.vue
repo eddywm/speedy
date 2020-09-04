@@ -30,7 +30,7 @@
     <div>
       <button class="button is-primary" id="generate-btn" v-on:click="onGenerate">
         <b-icon icon="plus"></b-icon>
-        <span>Generate</span>
+        <span>Generate Address</span>
       </button>
     </div>
 
