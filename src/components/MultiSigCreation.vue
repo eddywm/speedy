@@ -30,11 +30,12 @@
         </button>
       </div>
 
-      <div id="address-generated-info" v-if="generatedMultiSigAddress.length > 0">
+      <div id="address-generated-info" v-if="generatedMultiSigAddress.length > 0 && isAddressBannerActive">
         <b-message title="Success" type="is-success" v-model="isAddressBannerActive"
                    aria-close-label="Close message">
           The generated multi-sig address : <strong>{{ generatedMultiSigAddress }}</strong>
         </b-message>
+        <qr-code :text="generatedMultiSigAddress" id="qr-code" class="columns is-flex is-vcentered is-centered"></qr-code>
       </div>
 
       <div v-for="(field, index) in publicKeysFields" :key="field">
@@ -135,10 +136,6 @@ export default class MultiSigCreation extends Vue {
 </script>
 
 <style scoped>
-#fields {
-  margin-top: 60px;
-}
-
 #pb-key-field, #generate-multisig-btn, #notice {
   padding-top: 10px;
   padding-bottom: 10px;

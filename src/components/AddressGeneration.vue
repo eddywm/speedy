@@ -34,11 +34,13 @@
       </button>
     </div>
 
-    <div id="address-generated-info" v-if="generatedAddress.length > 0">
+    <div id="address-generated-info" v-if="generatedAddress.length > 0 && isAddressBannerActive">
       <b-message title="Success" type="is-success" v-model="isAddressBannerActive"
                  aria-close-label="Close message">
         The Segwit address was generated: <strong>{{ generatedAddress }}</strong>
       </b-message>
+      <qr-code :text="generatedAddress" id="qr-code" class="columns is-flex is-vcentered is-centered"></qr-code>
+
     </div>
   </div>
 </template>
@@ -115,10 +117,6 @@ export default class AddressGeneration extends Vue {
 </script>
 
 <style scoped>
-#fields {
-  margin-top: 60px;
-}
-
 #generate-btn, #address-generated-info {
   margin-top: 20px;
 }

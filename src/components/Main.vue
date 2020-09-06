@@ -1,9 +1,6 @@
 <template>
-      <div class="columns" id="fields">
-        <div class="column"></div>
-
-        <div class="column is-two-thirds">
-
+      <div class="columns is-flex is-vcentered is-centered" id="fields">
+        <div class="column is-two-thirds-desktop is-full-mobile">
           <b-message title="SpeedyWallet" has-icon type="is-info" aria-close-label="Close message">
             For better security, when using this tool : please turn off internet access and use it fully offline.
             SpeedyWallet is a fully client-side tool and doesn't collect any sensitive data nor usage infos.
@@ -20,11 +17,7 @@
 
           </b-tabs>
         </div>
-
-        <div class="column">
         </div>
-
-      </div>
 
 </template>
 
@@ -46,9 +39,13 @@ export default class Main extends Vue {
 
 </script>
 
-<style scoped>
+<style>
 #fields {
-  margin-top: 60px;
+  margin-top: 20px;
+  padding: 10px;
 }
 
+#qr-code {
+  margin: 20px;
+}
 </style>
